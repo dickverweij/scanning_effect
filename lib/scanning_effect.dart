@@ -107,6 +107,7 @@ class _ScanningEffectState extends State<ScanningEffect>
 
   @override
   void dispose() {
+    _animationController.stop();
     _animationController.dispose();
     super.dispose();
   }
