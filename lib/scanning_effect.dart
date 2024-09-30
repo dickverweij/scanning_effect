@@ -70,12 +70,12 @@ class _ScanningEffectState extends State<ScanningEffect>
             () {
               _animationController
                 ..reset()
-                ..forward(from: 0);
+                ..forward(from: 0).orCancel;
             },
           );
         }
       })
-      ..forward(from: 0);
+      ..forward(from: 0).orCancel;
     super.initState();
   }
 
