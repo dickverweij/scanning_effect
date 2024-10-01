@@ -53,6 +53,8 @@ class ScanningEffect extends StatefulWidget {
 
 class _ScanningEffectState extends State<ScanningEffect>
     with SingleTickerProviderStateMixin {
+  bool isDisposed = false;
+
   late final AnimationController _animationController;
 
   @override
@@ -64,18 +66,20 @@ class _ScanningEffectState extends State<ScanningEffect>
 
     _animationController
       ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
+        if (status == AnimationStatus.completed && !isDisposed) {
           Future.delayed(
             widget.delay,
             () {
-              _animationController
-                ..reset()
-                ..forward(from: 0).orCancel;
+              if (!isDisposed) {
+                _animationController
+                  ..reset()
+                  ..forward(from: 0);
+              }
             },
           );
         }
       })
-      ..forward(from: 0).orCancel;
+      ..forward(from: 0);
     super.initState();
   }
 
@@ -107,7 +111,7 @@ class _ScanningEffectState extends State<ScanningEffect>
 
   @override
   void dispose() {
-    _animationController.stop();
+    isDisposed = true;
     _animationController.dispose();
     super.dispose();
   }
